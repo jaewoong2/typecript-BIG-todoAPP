@@ -3,6 +3,7 @@ import styled, { keyframes } from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'reducer';
 import { THEME_CHANGE } from '../../reducer/theme';
+import { BulbTwoTone } from '@ant-design/icons'
 
 const flicker = keyframes`
     from {
@@ -14,7 +15,7 @@ const flicker = keyframes`
 `
 
 const MainNav = styled.nav`
-    position : fixed;
+    /* position : fixed; */
     top : 0;
     width : 100vw;
     background-color : ${props => props.theme === true ? "black" : "#a8acad"};
@@ -22,7 +23,7 @@ const MainNav = styled.nav`
      .title {
         display : flex;
         width : 100%;
-        justify-content : center;
+        justify-content : space-between;
         font-size : 40px;
         letter-spacing : 5px;
         position : relative;
@@ -47,15 +48,26 @@ const MainNav = styled.nav`
         }
 
         .theme-changer {
-            position : absolute;
-            right : 0;
-            margin-right : 10px;
+            font-size : 45px;
+            margin-right : 30px;
+            padding-top : 10px;
+            filter : drop-shadow(5px 5px 6px #d8d8d8d9); 
+
+            &:focus {
+                outline : 0;
+            }
+
+            &:hover {
+                transform : rotate(-15deg);
+            }
         }
      }
 
      .page {
+        /* position : fixed; */
         width : 100%;
-        margin-top : 15px;
+        /* top : 0; */
+        margin-top : 0px;
         display : flex;
         justify-content : space-around;
 
@@ -106,8 +118,9 @@ const NavContainer = () => {
         <>
         <MainNav theme={theme}>
             <div className="title">
+                <div></div>
                 <h4>Woong's Page</h4>
-                <div onClick={onToggleTheme} className="theme-changer">{theme ? '달'  : '태양'}</div>
+                <BulbTwoTone onClick={onToggleTheme} twoToneColor={theme ? "#bdbdbdbd" : "gray"} className="theme-changer"></BulbTwoTone>
             </div>
             <div className="page">
                 <div>About</div>
