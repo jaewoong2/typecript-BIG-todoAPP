@@ -1,29 +1,43 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { useSelector } from 'react-redux'
-import { RootState } from 'reducer'
 
 const InputWrapper = styled.div`
     display : flex;
     align-items : center;
-    justify-content : center;
+    justify-content : flex-start;
     margin-top : 5px;
     border : 0;
     border-bottom : 1px solid #d9d9d9;
+    width : 100%;
+
+    .icon {
+        width : 7%;
+    }
+
+    .suffix {
+        width : 13%;
+        font-size : 0.95rem;
+    }
 
     .input {
         margin-left : 10px;
         border : 0;
         background-color : inherit;
         font-size : 0.95rem;
-        width : 80vw;
-        max-width : 350px;
+        width : 80%;
         height : 40px;
-        color: ${props => props.theme === true ? "white" : "black"};
+        color: ${props => props.theme.color};
     
         &:focus {
             outline : 0;
-            color: ${props => props.theme === true ? "white" : "black"};
+            color: ${props => props.theme.color};
+        }
+
+        &::placeholder {
+            color: ${props => props.theme.placeholderColor};
+            opacity : 0.4;
+            letter-spacing : 1.1;
+            font-size : 0.85rem;
         }
     }
 
@@ -52,23 +66,37 @@ interface InputCustomProps {
     value? : string;
     onChange? : () => void;
     suffix? : JSX.Element | string;
+    className? : string;
+    inputClassName ?: string;
+    
+    color? : string;
+    placeholderColor? : string;
 }
 
 
-const InputCustom = ({icon, name, placeholder, value, onChange, suffix} : InputCustomProps) => {
-    const { theme } = useSelector((state : RootState) => state.theme);
+const InputCustom = ({color = 'black', placeholderColor = 'black', className, inputClassName ,icon, name, placeholder, value, onChange, suffix} : InputCustomProps) => {
+
+    const inputWrapperTheme = useMemo(() => ({
+        color,
+        placeholderColor
+    }),[color, placeholderColor])
 
     return (
-        <InputWrapper theme={theme} className="wrapper">
+        <InputWrapper theme={inputWrapperTheme} className={`wrapper ${className}`}>
+            <div className="icon">
             {icon}
+            </div>
             <input 
-            className="input"
-            name={name} type={name}
+            className={`input ${inputClassName}`}
+            name={name} 
+            type={name}
             required value={value || ''}
             onChange={onChange}
             placeholder={placeholder}
             />
+            <div className="suffix">
             {suffix}
+            </div>
         </InputWrapper>
     )
 
